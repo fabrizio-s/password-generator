@@ -10,7 +10,19 @@ public class Main {
     public static final int NUMBER_OF_PASSWORDS = 300;
 
     public static void main(String[] args) {
-        PasswordGenerator pg = new PasswordGenerator.Builder().characters("_!@#$%^&()-=+?':;\"{}[].,/\\~`").length(64).build();
+	if (args.length != 2) {
+		System.out.println("Invalid number of args.");
+		System.exit(-1);
+	}
+	String characters = args[1];
+	int length = 0;
+	try {
+		length = Integer.parseInt(args[0]);
+	} catch (NumberFormatException ex) {
+		System.out.println("Unable to parse argument '" + args[0] + "' to an integer.");
+		System.exit(-1);
+	}
+        PasswordGenerator pg = new PasswordGenerator.Builder().characters(characters).length(length).build();
         Set<String> set = new HashSet<>();
         for (int i = 0; i < NUMBER_OF_PASSWORDS; i++)
             set.add(pg.generate());
